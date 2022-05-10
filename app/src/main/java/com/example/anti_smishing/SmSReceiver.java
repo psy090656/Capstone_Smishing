@@ -22,11 +22,12 @@ public class SmSReceiver extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
 
         if (intent.getAction().equals(SMS_RECEIVED)) {
-            Log.d(TAG, "onReceiver() 호출");
+            Log.d(TAG, "onReceive() called");
 
             // Bundle을 이용해서 메세지 내용을 가져옴
             Bundle bundle = intent.getExtras();
             SmsMessage[] messages = parseSmsMessage(bundle);
+
             // 메세지가 있을 경우 내용을 로그로 출력해 봄
             if (messages.length > 0) {
                 // 메세지의 내용을 가져옴
@@ -52,7 +53,10 @@ public class SmSReceiver extends BroadcastReceiver {
     private void sendToActivity(Context context, String sender, String contents, Date receivedDate) {
         Intent intent = new Intent(context, SmSReceiver.class);
         // Flag 설정
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_SINGLE_TOP | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+                | Intent.FLAG_ACTIVITY_SINGLE_TOP
+                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+
         // 메세지의 내용을 Extra에 넣어줌
         intent.putExtra("sender", sender);
         intent.putExtra("contents", contents);
