@@ -10,15 +10,16 @@
 
     <EditText
         android:id="@+id/et_url"
-        android:layout_width="300dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:hint="Anti-Smishing"/>
+        android:hint="Anti-Smishing" />
 
     <Button
         android:id="@+id/btn_search"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="검색"/>
+        android:text="검색" />
+
     <Button
         android:id="@+id/btn_test"
         android:layout_width="wrap_content"

@@ -1,5 +1,6 @@
 package com.example.anti_smishing;
 import java.util.ArrayList;
+import java.util.Date;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -7,14 +8,22 @@ import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Build;
 import android.content.pm.PackageManager;
+import android.widget.TextView;
 import android.widget.Toast;
 
 public class MainActivity extends AppCompatActivity {
 
     final static int PERMISSON_REQUEST_CODE = 1000;
+
+    //sms activity
+    TextView tv_sender;
+    TextView tv_date;
+    TextView tv_content;
+    //
 
     String permission_list[] = {
             Manifest.permission_group.SMS
@@ -23,9 +32,19 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+//        setContentView(R.layout.activity_main);
 
         permissionCheck();
+
+        //smsactivity 임시테스트용
+        setContentView(R.layout.activity_sms);
+
+        tv_sender = findViewById(R.id.textView_sender);
+        tv_date = findViewById(R.id.textView_date);
+        tv_content = findViewById(R.id.textView_content);
+
+        Intent intent = getIntent();
+        processCommand(intent);
     }
 
 
@@ -79,4 +98,29 @@ public class MainActivity extends AppCompatActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
+
+    //smsactivity
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        processCommand(intent);
+    }
+
+    private void processCommand(Intent intent){
+        if(intent != null){
+            String sender = intent.getStringExtra("sender");
+            String date = intent.getStringExtra("date");
+            String content = intent.getStringExtra("content");
+
+            tv_sender.setText(sender);
+            tv_date.setText(date);
+            tv_content.setText(content);
+        }
+    }
+
+    //url
+//    public ArrayList<String> urlParse(TextView content) {
+//
+////        return;
+//    }
 }

@@ -18,12 +18,11 @@ public class SmSActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         // 21번줄부터 26번줄까지 새로운 xml파일로 제작할 예정.
-//        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
-
-//        tv_sender = findViewById(R.id.textView_sender);
-//        tv_date = findViewById(R.id.textView_date);
-//        tv_content = findViewById(R.id.textView_content);
+        tv_sender = findViewById(R.id.textView_sender);
+        tv_date = findViewById(R.id.textView_date);
+        tv_content = findViewById(R.id.textView_content);
 
         Intent intent = getIntent();
         processCommand(intent);
