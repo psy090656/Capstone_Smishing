@@ -16,3 +16,7 @@
 - SmSActivity, MainActivity 통합.
 - SmSReceiver activity_sms에서 sender, content 출력가능 (date 오류)
 - 내일 content(sms parsing)에서 url parsing 및 미사용 코드 간소화.
+
+# 2022.05.17
+- SmSActivity 통합 후 제거
+- 문자메시지 Content변수에 저장된 문자메시지 내용 url추출 메소드 추가 및 테스트 완료.
