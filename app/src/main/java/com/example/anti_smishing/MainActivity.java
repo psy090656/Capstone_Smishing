@@ -1,6 +1,8 @@
 package com.example.anti_smishing;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -112,15 +114,28 @@ public class MainActivity extends AppCompatActivity {
             String date = intent.getStringExtra("date");
             String content = intent.getStringExtra("content");
 
+            //content에서 url 파싱한 결과를 test변수에 저장
+            String content_parse_save = extractUrl(content);
+
             tv_sender.setText(sender);
             tv_date.setText(date);
-            tv_content.setText(content);
+            //문자메시지 내용중 url만 출력하게함. 단, url은 한개의 url만 출력됨.
+            tv_content.setText(content_parse_save);
         }
     }
 
-    //url
-//    public ArrayList<String> urlParse(TextView content) {
-//
-////        return;
-//    }
+    //content에서 url하는 메소드
+    public static String extractUrl(String content){
+        try {
+            String REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
+            Pattern p = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
+            Matcher m = p.matcher(content);
+            if (m.find()) {
+                return m.group();
+            }
+            return "";
+        } catch (Exception e) {
+            return "";
+        }
+    }
 }

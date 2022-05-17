@@ -33,10 +33,6 @@
             </intent-filter>
         </activity>
 
-        <activity
-            android:name=".SmSActivity"
-            android:exported="false" />
-
     </application>
 
 </manifest>
