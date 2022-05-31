@@ -1,38 +1,68 @@
 package com.example.anti_smishing;
 
-//Whois Open API 샘플코드 (issue있을시 VirusTotal 또는 다른 Open Api로 교체예정.)
+import android.os.Build;
 
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
-import java.net.URLEncoder;
-import java.io.BufferedReader;
-import java.io.IOException;
+import androidx.annotation.RequiresApi;
+
+import java.nio.charset.StandardCharsets;
+import java.util.Base64;
+
+import com.squareup.okhttp.*;
 
 public class ApiExplorer {
-    public static void main(String[] args) throws IOException {
-        StringBuilder urlBuilder = new StringBuilder("http://apis.data.go.kr/B551505/whois/domain_name"); /*URL*/
-        urlBuilder.append("?" + URLEncoder.encode("serviceKey","UTF-8") + "=서비스키"); /*Service Key == 2022032116262276957610*/
-        urlBuilder.append("&" + URLEncoder.encode("query","UTF-8") + "=" + URLEncoder.encode("kisa.or.kr", "UTF-8")); /*도메인 이름 (.kr, .한국 도메인만 가능)*/
-        urlBuilder.append("&" + URLEncoder.encode("answer","UTF-8") + "=" + URLEncoder.encode("xml", "UTF-8")); /*응답형식(XML/JSON) 을 지정(없으면 XML으로 응답)*/
-        URL url = new URL(urlBuilder.toString());
-        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-        conn.setRequestMethod("GET");
-        conn.setRequestProperty("Content-type", "application/json");
-        System.out.println("Response code: " + conn.getResponseCode());
-        BufferedReader rd;
-        if(conn.getResponseCode() >= 200 && conn.getResponseCode() <= 300) {
-            rd = new BufferedReader(new InputStreamReader(conn.getInputStream()));
-        } else {
-            rd = new BufferedReader(new InputStreamReader(conn.getErrorStream()));
+//    static String Key = "b619667c043f9366415fadb122934a7d3310f5b225cc869fea8c69a976e2106d";
+//    static String Test_URL = "https://han.gl/zt6Uz";
+
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static String encode(String raw) {
+        return Base64.getUrlEncoder()
+                .withoutPadding()
+                .encodeToString(raw.getBytes(StandardCharsets.UTF_8));
+    }
+
+//	public static void post(String requestURL, String jsonMessage) {
+//		try{
+//			OkHttpClient client = new OkHttpClient();
+//			MediaType mediaType = MediaType.parse("application/x-www-form-urlencoded");
+//			RequestBody body = RequestBody.create(mediaType, "url=https%3A%2F%2Fwww.google.com");
+//			Request request = new Request.Builder()
+//					.url("https://www.virustotal.com/api/v3/urls")
+//					.post(body)
+//					.addHeader("Accept", "application/json")
+//					.addHeader("x-apikey", "b619667c043f9366415fadb122934a7d3310f5b225cc869fea8c69a976e2106d")
+//					.addHeader("Content-Type", "application/x-www-form-urlencoded")
+//					.build();
+//			//동기 처리시 execute함수 사용
+//			Response response = client.newCall(request).execute();
+//			//출력
+//			String message = response.body().string();
+//			System.out.println(message);
+//		} catch (Exception e) {
+//			System.err.println(e.toString());
+//		}
+//	}
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public static void get(String requestURL) {
+        try {
+            OkHttpClient client = new OkHttpClient();
+
+            String encodeUrl = encode(requestURL);
+            Request request = new Request.Builder()
+                    .url("https://www.virustotal.com/api/v3/urls/"+encodeUrl)
+                    .get()
+                    .addHeader("Accept", "application/json")
+                    .addHeader("x-apikey", "b619667c043f9366415fadb122934a7d3310f5b225cc869fea8c69a976e2106d")
+                    .build();
+
+            Response response = client.newCall(request).execute();
+            //출력
+            String message = response.body().string();
+            System.out.println(message);
+
+        } catch (Exception e){
+            System.err.println(e.toString());
         }
-        StringBuilder sb = new StringBuilder();
-        String line;
-        while ((line = rd.readLine()) != null) {
-            sb.append(line);
-        }
-        rd.close();
-        conn.disconnect();
-        System.out.println(sb.toString());
     }
 }

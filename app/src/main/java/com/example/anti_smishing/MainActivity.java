@@ -17,6 +17,9 @@ import android.content.pm.PackageManager;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.anti_smishing.ApiExplorer;
+import com.example.anti_smishing.SmSReceiver;
+
 public class MainActivity extends AppCompatActivity {
 
     final static int PERMISSON_REQUEST_CODE = 1000;
