@@ -20,3 +20,7 @@
 # 2022.05.17
 - SmSActivity 통합 후 제거
 - 문자메시지 Content변수에 저장된 문자메시지 내용 url추출 메소드 추가 및 테스트 완료.
+
+# 2022.05.31
+- ApiExplorer 코드 전면 수정 및 정리.
+- External libs 추가
