@@ -19,6 +19,7 @@ import android.widget.Toast;
 
 import com.example.anti_smishing.ApiExplorer;
 import com.example.anti_smishing.SmSReceiver;
+import com.example.anti_smishing.Notification;
 
 public class MainActivity extends AppCompatActivity {
 
