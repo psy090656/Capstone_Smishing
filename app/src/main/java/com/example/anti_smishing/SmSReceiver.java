@@ -1,5 +1,8 @@
 package com.example.anti_smishing;
 
+import static com.example.anti_smishing.ApiExplorer.get;
+import static com.example.anti_smishing.MainActivity.extractUrl;
+
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -35,6 +38,9 @@ public class SmSReceiver extends BroadcastReceiver {
                 // 로그를 찍어보는 과정이므로 생략해도 됨
                 Log.d(TAG, "Sender :" + sender);
                 Log.d(TAG, "contents : " + content);
+
+                //test
+//                String test = get(extractUrl(content));
 
                 // 액티비티로 메세지의 내용을 전달해줌
                 sendToActivity(context, sender, content);

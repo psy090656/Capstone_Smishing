@@ -2,36 +2,33 @@ package com.example.anti_smishing;
 import static com.example.anti_smishing.ApiExplorer.get;
 
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
 import androidx.core.content.ContextCompat;
 
 import android.Manifest;
+import android.app.NotificationChannel;
+import android.app.NotificationManager;
+import android.content.Context;
 import android.content.Intent;
-import android.os.Bundle;
+import android.graphics.Color;
 import android.os.Build;
+import android.os.Bundle;
 import android.content.pm.PackageManager;
+import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
-
-import com.example.anti_smishing.ApiExplorer;
-import com.example.anti_smishing.SmSReceiver;
-import com.example.anti_smishing.Notification;
 
 public class MainActivity extends AppCompatActivity {
 
     final static int PERMISSON_REQUEST_CODE = 1000;
 
-    //sms activity
-    TextView tv_sender;
-    TextView tv_content;
-    //
+    //notification
 
     String permission_list[] = {
             Manifest.permission_group.SMS
@@ -40,18 +37,12 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-//        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_main);
 
         permissionCheck();
 
-        //smsactivity 임시테스트용
-        setContentView(R.layout.activity_sms);
-
-        tv_sender = findViewById(R.id.textView_sender);
-        tv_content = findViewById(R.id.textView_content);
-
         Intent intent = getIntent();
-        processCommand(intent);
+        createNotification(intent);
     }
 
 
@@ -106,29 +97,6 @@ public class MainActivity extends AppCompatActivity {
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
 
-    //smsactivity
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        processCommand(intent);
-    }
-
-    //intent하는거 가져오는 메소드
-    private void processCommand(Intent intent){
-        if(intent != null){
-            String sender = intent.getStringExtra("sender");
-            String content = intent.getStringExtra("content");
-
-            //content에서 url 파싱한 결과를 test변수에 저장
-            String content_parse_save = get(extractUrl(content));
-
-            tv_sender.setText(sender);
-            //문자메시지 내용중 url만 출력하게함. 단, url은 한개의 url만 출력됨.
-
-            tv_content.setText(content_parse_save);
-        }
-    }
-
     //content에서 url하는 메소드
     public static String extractUrl(String content){
         try {
@@ -143,4 +111,58 @@ public class MainActivity extends AppCompatActivity {
             return "";
         }
     }
+
+    
+    //결과 판별
+    public static String extraction(String message){
+        String malware = "\"result\": \"malware\"";
+        String phishing = "\"result\": \"phishing\"";
+        String malicious = "\"result\": \"malicious\"";
+
+        String doubt="";
+        if(message.indexOf(malware)>=0)
+            doubt = doubt + "marware, ";
+        if(message.indexOf(malicious) >= 0)
+            doubt = doubt + "malicious, ";
+        if(message.indexOf(phishing) >= 0)
+            doubt = doubt + "phishing";
+
+        return doubt;
+
+    }
+
+    // 알림 생성자.
+    public void createNotification(Intent intent) {
+        new Thread(() -> {
+            if (intent != null) {
+                NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default");
+                String sender = intent.getStringExtra("sender");
+                String content = intent.getStringExtra("content");
+
+                String content_parse_save = extraction(get(extractUrl(content)));
+
+                builder.setSmallIcon(R.mipmap.ic_launcher);
+                builder.setContentTitle(sender);
+//        builder.setContentText("알람 세부 텍스트");
+
+                builder.setContentText(content_parse_save);
+
+                builder.setColor(Color.RED);
+                // 사용자가 탭을 클릭하면 자동 제거
+                builder.setAutoCancel(true);
+
+                // 알림 표시
+                NotificationManager notificationManager = (NotificationManager) this.getSystemService(Context.NOTIFICATION_SERVICE);
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                    notificationManager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_DEFAULT));
+                }
+
+                // id값은
+                // 정의해야하는 각 알림의 고유한 int값
+                notificationManager.notify(1, builder.build());
+
+            }
+        }).start();
+    }
+
 }

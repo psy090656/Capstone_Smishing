@@ -19,7 +19,6 @@ public class ApiExplorer {
 
     static String sender;
     static String content;
-    Date date;
 
     public static String encode(String raw) {
         return Base64.getUrlEncoder()
@@ -65,6 +64,7 @@ public class ApiExplorer {
             Response response = client.newCall(request).execute();
             //출력
             String message = response.body().string();
+
             return message;
 
         } catch (Exception e){
