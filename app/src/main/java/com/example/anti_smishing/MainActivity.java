@@ -1,10 +1,13 @@
 package com.example.anti_smishing;
+import static com.example.anti_smishing.ApiExplorer.get;
+
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 import androidx.core.content.ContextCompat;
@@ -27,7 +30,6 @@ public class MainActivity extends AppCompatActivity {
 
     //sms activity
     TextView tv_sender;
-    TextView tv_date;
     TextView tv_content;
     //
 
@@ -46,7 +48,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_sms);
 
         tv_sender = findViewById(R.id.textView_sender);
-        tv_date = findViewById(R.id.textView_date);
         tv_content = findViewById(R.id.textView_content);
 
         Intent intent = getIntent();
@@ -112,18 +113,18 @@ public class MainActivity extends AppCompatActivity {
         processCommand(intent);
     }
 
+    //intent하는거 가져오는 메소드
     private void processCommand(Intent intent){
         if(intent != null){
             String sender = intent.getStringExtra("sender");
-            String date = intent.getStringExtra("date");
             String content = intent.getStringExtra("content");
 
             //content에서 url 파싱한 결과를 test변수에 저장
-            String content_parse_save = extractUrl(content);
+            String content_parse_save = get(extractUrl(content));
 
             tv_sender.setText(sender);
-            tv_date.setText(date);
             //문자메시지 내용중 url만 출력하게함. 단, url은 한개의 url만 출력됨.
+
             tv_content.setText(content_parse_save);
         }
     }

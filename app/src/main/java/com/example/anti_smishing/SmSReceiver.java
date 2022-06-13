@@ -31,32 +31,30 @@ public class SmSReceiver extends BroadcastReceiver {
                 // 메세지의 내용을 가져옴
                 String sender = messages[0].getOriginatingAddress();
                 String content = messages[0].getMessageBody().toString();
-                Date date = new Date(messages[0].getTimestampMillis());
+
                 // 로그를 찍어보는 과정이므로 생략해도 됨
                 Log.d(TAG, "Sender :" + sender);
                 Log.d(TAG, "contents : " + content);
-                Log.d(TAG, "date : " + date);
 
                 // 액티비티로 메세지의 내용을 전달해줌
-                sendToActivity(context, sender, content, date);
+                sendToActivity(context, sender, content);
             }
 //        }
     }
 
-    private static SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 
     // 액티비티로 메세지의 내용을 전달해줌
-    private void sendToActivity(Context context, String sender, String content, Date date) {
+    private void sendToActivity(Context context, String sender, String content) {
         Intent intent = new Intent(context, MainActivity.class);
         // Flag 설정
         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
                 | Intent.FLAG_ACTIVITY_SINGLE_TOP
                 | Intent.FLAG_ACTIVITY_CLEAR_TOP);
 
-        // 메세지의 내용을 넣어줌
+        // 메세지의 내용을 넣어줌고 intent준비
         intent.putExtra("sender", sender);
         intent.putExtra("content", content);
-        intent.putExtra("Date", format.format(date));
+
         context.startActivity(intent);
     }
 
@@ -80,8 +78,6 @@ public class SmSReceiver extends BroadcastReceiver {
         return messages;
     }
 
-    ////////////////////////////////////////////////////////
-    //
 
 
 

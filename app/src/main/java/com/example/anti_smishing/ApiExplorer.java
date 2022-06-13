@@ -1,11 +1,15 @@
 package com.example.anti_smishing;
 
+import android.content.Intent;
 import android.os.Build;
+import android.os.Bundle;
+import android.os.NetworkOnMainThreadException;
 
 import androidx.annotation.RequiresApi;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
+import java.util.Date;
 
 import com.squareup.okhttp.*;
 
@@ -13,8 +17,10 @@ public class ApiExplorer {
 //    static String Key = "b619667c043f9366415fadb122934a7d3310f5b225cc869fea8c69a976e2106d";
 //    static String Test_URL = "https://han.gl/zt6Uz";
 
+    static String sender;
+    static String content;
+    Date date;
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
     public static String encode(String raw) {
         return Base64.getUrlEncoder()
                 .withoutPadding()
@@ -43,8 +49,8 @@ public class ApiExplorer {
 //		}
 //	}
 
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    public static void get(String requestURL) {
+
+    public static String get(String requestURL) throws NetworkOnMainThreadException {
         try {
             OkHttpClient client = new OkHttpClient();
 
@@ -59,10 +65,12 @@ public class ApiExplorer {
             Response response = client.newCall(request).execute();
             //출력
             String message = response.body().string();
-            System.out.println(message);
+            return message;
 
         } catch (Exception e){
-            System.err.println(e.toString());
+            return e.toString();
         }
     }
+
+
 }
