@@ -36,13 +36,16 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
         permissionCheck();
 
         Intent intent = getIntent();
+        new Thread(() -> {
         createNotification(intent);
+        }).start();
     }
 
 
@@ -112,20 +115,26 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    
+
     //결과 판별
     public static String extraction(String message){
         String malware = "\"result\": \"malware\"";
         String phishing = "\"result\": \"phishing\"";
         String malicious = "\"result\": \"malicious\"";
 
-        String doubt="";
+        String doubt="Url 검사결과";
         if(message.indexOf(malware)>=0)
-            doubt = doubt + "marware, ";
+            doubt = doubt + "\n malware 감지";
+        else
+            doubt = doubt + "\n malware 없음";
         if(message.indexOf(malicious) >= 0)
-            doubt = doubt + "malicious, ";
+            doubt = doubt + "\n malicious 감지";
+        else
+            doubt = doubt + "\n malicious 없음";
         if(message.indexOf(phishing) >= 0)
-            doubt = doubt + "phishing";
+            doubt = doubt + "\n phishing 감지";
+        else
+            doubt = doubt + "\n phishing 없음";
 
         return doubt;
 
@@ -133,7 +142,7 @@ public class MainActivity extends AppCompatActivity {
 
     // 알림 생성자.
     public void createNotification(Intent intent) {
-        new Thread(() -> {
+//        new Thread(() -> {
             if (intent != null) {
                 NotificationCompat.Builder builder = new NotificationCompat.Builder(this, "default");
                 String sender = intent.getStringExtra("sender");
@@ -159,10 +168,10 @@ public class MainActivity extends AppCompatActivity {
 
                 // id값은
                 // 정의해야하는 각 알림의 고유한 int값
-                notificationManager.notify(1, builder.build());
+                notificationManager.notify(7, builder.build());
 
             }
-        }).start();
+//        }).start();
     }
 
 }

@@ -22,7 +22,7 @@ public class SmSReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {
 
-//        if (intent.getAction().equals(SMS_RECEIVED)) {
+        if (intent.getAction().equals(SMS_RECEIVED)) {
             Log.d(TAG, "onReceive() called");
 
             // Bundle을 이용해서 메세지 내용을 가져옴
@@ -45,7 +45,7 @@ public class SmSReceiver extends BroadcastReceiver {
                 // 액티비티로 메세지의 내용을 전달해줌
                 sendToActivity(context, sender, content);
             }
-//        }
+        }
     }
 
 

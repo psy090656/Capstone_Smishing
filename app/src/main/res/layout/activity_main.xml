@@ -1,29 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-
-    <EditText
-        android:id="@+id/et_url"
-        android:layout_width="wrap_content"
+    <LinearLayout
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:hint="Anti-Smishing" />
+        android:paddingVertical="135dp"
+        android:orientation="vertical"/>
 
-    <Button
-        android:id="@+id/btn_search"
-        android:layout_width="wrap_content"
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="134dp"
         android:layout_height="wrap_content"
-        android:text="검색" />
+        android:layout_gravity="center"
+        android:switchMinWidth="30dp"
+        android:text="  Switch"
+        android:textSize="20dp" />
 
-    <Button
-        android:id="@+id/btn_test"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="화면이동" />
 
 </LinearLayout>

@@ -3,7 +3,6 @@ package com.example.anti_smishing;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
-import android.os.NetworkOnMainThreadException;
 
 import androidx.annotation.RequiresApi;
 
@@ -49,7 +48,7 @@ public class ApiExplorer {
 //	}
 
 
-    public static String get(String requestURL) throws NetworkOnMainThreadException {
+    public static String get(String requestURL) {
         try {
             OkHttpClient client = new OkHttpClient();
 
