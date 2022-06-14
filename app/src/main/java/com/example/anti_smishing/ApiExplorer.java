@@ -1,25 +1,20 @@
 package com.example.anti_smishing;
 
-import android.content.Intent;
-import android.os.Build;
-import android.os.Bundle;
-
-import androidx.annotation.RequiresApi;
+import android.util.Log;
 
 import java.nio.charset.StandardCharsets;
 import java.util.Base64;
-import java.util.Date;
+
 
 import com.squareup.okhttp.*;
 
 public class ApiExplorer {
 //    static String Key = "b619667c043f9366415fadb122934a7d3310f5b225cc869fea8c69a976e2106d";
 //    static String Test_URL = "https://han.gl/zt6Uz";
-
-    static String sender;
-    static String content;
+    private static final String TAG = "ApiExplorer";
 
     public static String encode(String raw) {
+        Log.d(TAG, "encode() called");
         return Base64.getUrlEncoder()
                 .withoutPadding()
                 .encodeToString(raw.getBytes(StandardCharsets.UTF_8));
@@ -49,6 +44,7 @@ public class ApiExplorer {
 
 
     public static String get(String requestURL) {
+        Log.d(TAG, "get() called");
         try {
             OkHttpClient client = new OkHttpClient();
 
