@@ -68,20 +68,20 @@ public class SmSReceiver extends BroadcastReceiver {
         Log.d(TAG, "createNotification() called");
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.getAppContext(), "default");
-
-
+            
             String content_parse_save = extraction(get(extractUrl(content)));
 
             builder.setSmallIcon(R.mipmap.ic_launcher);
             builder.setContentTitle(sender);
             builder.setContentText(content_parse_save);
 
+            //아이콘 색상
             builder.setColor(Color.RED);
+
             // 사용자가 탭을 클릭하면 자동 제거
             builder.setAutoCancel(true);
 
-            // 알림 표시
-
+            // 알림 표시 (Oreo 버전 이상은 채널설정 해줘야함.)
             NotificationManager notificationManager = (NotificationManager) MainActivity.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
                 notificationManager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_DEFAULT));
@@ -93,22 +93,6 @@ public class SmSReceiver extends BroadcastReceiver {
             notificationManager.notify(7, builder.build());
 
 
-    }
-
-
-    // 액티비티로 메세지의 내용을 전달해줌
-    private void sendToActivity(Context context, String sender, String content) {
-        Intent intent = new Intent(context, SmSReceiver.class);
-        // Flag 설정
-        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-                | Intent.FLAG_ACTIVITY_SINGLE_TOP
-                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-
-        // 메세지의 내용을 넣어줌고 intent준비
-        intent.putExtra("sender", sender);
-        intent.putExtra("content", content);
-
-        context.startActivity(intent);
     }
 
     //문자메세지 파싱 함수
@@ -171,6 +155,21 @@ public class SmSReceiver extends BroadcastReceiver {
 
     }
 
+
+//    // 액티비티로 메세지의 내용을 전달해줌
+//    private void sendToActivity(Context context, String sender, String content) {
+//        Intent intent = new Intent(context, SmSReceiver.class);
+//        // Flag 설정
+//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
+//                | Intent.FLAG_ACTIVITY_SINGLE_TOP
+//                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//
+//        // 메세지의 내용을 넣어줌고 intent준비
+//        intent.putExtra("sender", sender);
+//        intent.putExtra("content", content);
+//
+//        context.startActivity(intent);
+//    }
 
 
 
