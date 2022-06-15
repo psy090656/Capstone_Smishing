@@ -68,12 +68,12 @@ public class SmSReceiver extends BroadcastReceiver {
         Log.d(TAG, "createNotification() called");
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.getAppContext(), "default");
-            
+            NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle(builder);
             String content_parse_save = extraction(get(extractUrl(content)));
 
             builder.setSmallIcon(R.mipmap.ic_launcher);
-            builder.setContentTitle(sender);
-            builder.setContentText(content_parse_save);
+            builder.setContentTitle("발신번호 : "+sender);
+            bigTextStyle.bigText(content_parse_save);
 
             //아이콘 색상
             builder.setColor(Color.RED);
@@ -138,20 +138,28 @@ public class SmSReceiver extends BroadcastReceiver {
         String malicious = "\"result\": \"malicious\"";
 
         String doubt="Url 검사결과";
-        if(message.indexOf(malware)>=0)
-            doubt = doubt + "\n malware 감지";
-        else
-            doubt = doubt + "\n malware 없음";
-        if(message.indexOf(malicious) >= 0)
-            doubt = doubt + "\n malicious 감지";
-        else
-            doubt = doubt + "\n malicious 없음";
-        if(message.indexOf(phishing) >= 0)
-            doubt = doubt + "\n phishing 감지";
-        else
-            doubt = doubt + "\n phishing 없음";
+        String result1= "";
+        String result2= "";
+        String result3= "";
+        String result4= "";
+        String result5= "";
+        String result6= "";
 
-        return doubt;
+        if(message.indexOf(malware)>=0)
+            result1 = "\nmalware 감지";
+        else
+            result2 = "\nmalware 없음";
+        if(message.indexOf(malicious) >= 0)
+            result3 = "\nmalicious 감지";
+        else
+            result4= "\nmalicious 없음";
+        if(message.indexOf(phishing) >= 0)
+            result5 = "\nphishing 감지";
+        else
+            result6 = "\nphishing 없음";
+
+        return doubt+result1+result2+result3+result4+result5+result6;
+
 
     }
 

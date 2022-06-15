@@ -8,20 +8,22 @@
     android:layout_height="match_parent"
     android:orientation="vertical"
     tools:context=".MainActivity">
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:paddingVertical="135dp"
-        android:orientation="vertical"/>
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="134dp"
+    <ImageView
+        android:id="@+id/imageView"
+        android:layout_width="match_parent"
+        android:layout_height="255dp"
+        app:srcCompat="@drawable/chosun" />
+
+
+    <TextView
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:switchMinWidth="30dp"
-        android:text="  Switch"
-        android:textSize="20dp" />
+        android:text="산학캡스톤디자인 02분반\n         팀 : dawnsound\n      20174290 조병석\n      20174263 서정훈\n      20174248 박신영"
+        android:textSize="20sp"
+        android:textColor="@android:color/black"
+        android:textStyle="bold"
+        android:layout_gravity="center"/>
 
 
 </LinearLayout>
