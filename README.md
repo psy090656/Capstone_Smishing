@@ -1,4 +1,4 @@
-# Anti_Smishing_JeongHun_20174263
+# Anti_Smishing_Sinyoung_20174248
 
 # 2022.05.02
 - 이전 작업물 모두 제거 및 재시작.
