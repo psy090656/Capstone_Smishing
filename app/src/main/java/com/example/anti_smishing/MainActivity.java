@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity {
     final static int PERMISSON_REQUEST_CODE = 1000;
     private static final String TAG = "MainActivity";
     private static Context context;
-    Intent intent;
 
     //notification
 
@@ -45,11 +44,6 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
         MainActivity.context = getApplicationContext();
         permissionCheck();
-//        intent = getIntent();
-//
-//           new Thread(() -> {
-//                createNotification(intent,sender, content);
-//           }).start();
 
     }
 
@@ -78,9 +72,6 @@ public class MainActivity extends AppCompatActivity {
                 strArray = arrayPermission.toArray(strArray);
                 ActivityCompat.requestPermissions(this, strArray, PERMISSON_REQUEST_CODE);
             }
-//            else {
-//                //Initialize Code
-//            }
         }
     }
 
@@ -111,86 +102,5 @@ public class MainActivity extends AppCompatActivity {
 
         super.onRequestPermissionsResult(requestCode, permissions, grantResults);
     }
-
-//    //content에서 url하는 메소드
-//    public static String extractUrl(String content){
-//        Log.d(TAG, "extractUrl() called");
-//        try {
-//            String REGEX = "\\b(https?|ftp|file)://[-a-zA-Z0-9+&@#/%?=~_|!:,.;]*[-a-zA-Z0-9+&@#/%=~_|]";
-//            Pattern p = Pattern.compile(REGEX, Pattern.CASE_INSENSITIVE);
-//            Matcher m = p.matcher(content);
-//            if (m.find()) {
-//                return m.group();
-//            }
-//            return "";
-//        } catch (Exception e) {
-//            return "";
-//        }
-//    }
-//
-//
-//    //결과 판별
-//    public static String extraction(String message){
-//        Log.d(TAG, "extraction() called");
-//        String malware = "\"result\": \"malware\"";
-//        String phishing = "\"result\": \"phishing\"";
-//        String malicious = "\"result\": \"malicious\"";
-//
-//        String doubt="Url 검사결과";
-//        if(message.indexOf(malware)>=0)
-//            doubt = doubt + "\n malware 감지";
-//        else
-//            doubt = doubt + "\n malware 없음";
-//        if(message.indexOf(malicious) >= 0)
-//            doubt = doubt + "\n malicious 감지";
-//        else
-//            doubt = doubt + "\n malicious 없음";
-//        if(message.indexOf(phishing) >= 0)
-//            doubt = doubt + "\n phishing 감지";
-//        else
-//            doubt = doubt + "\n phishing 없음";
-//
-//        return doubt;
-//
-//    }
-
-//    // 알림 생성자.
-//    public static void createNotification(Intent intent) {
-//        Log.d(TAG, "createNotification() called");
-////        new Thread(() -> {
-//            if (intent != null) {
-//                NotificationCompat.Builder builder = new NotificationCompat.Builder(getAppContext(), "default");
-////                sender = intent.getStringExtra("sender");
-////                content = intent.getStringExtra("content");
-//
-//                String sender = intent.getStringExtra("sender");
-//                String content = intent.getStringExtra("content");
-//
-//
-//                String content_parse_save = extraction(get(extractUrl(content)));
-////                String content_parse_save = extractUrl(content);
-//                builder.setSmallIcon(R.mipmap.ic_launcher);
-//                builder.setContentTitle(sender);
-////        builder.setContentText("알람 세부 텍스트");
-//
-//                builder.setContentText(content_parse_save);
-//
-//                builder.setColor(Color.RED);
-//                // 사용자가 탭을 클릭하면 자동 제거
-//                builder.setAutoCancel(true);
-//
-//                // 알림 표시
-//                NotificationManager notificationManager = (NotificationManager) getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
-//                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                    notificationManager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_DEFAULT));
-//                }
-//
-//                // id값은
-//                // 정의해야하는 각 알림의 고유한 int값
-//                notificationManager.notify(7, builder.build());
-//
-//            }
-////        }).start();
-//    }
 
 }

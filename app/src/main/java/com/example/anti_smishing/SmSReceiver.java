@@ -53,10 +53,6 @@ public class SmSReceiver extends BroadcastReceiver {
                     }
                 };
                 th.start();
-
-                // 액티비티로 메세지의 내용을 전달해줌 비상시 재활성
-//                sendToActivity(context, sender, content);
-//                Log.d(TAG, "sendToActivity() called");
             }
         }
 
@@ -68,12 +64,18 @@ public class SmSReceiver extends BroadcastReceiver {
         Log.d(TAG, "createNotification() called");
 
             NotificationCompat.Builder builder = new NotificationCompat.Builder(MainActivity.getAppContext(), "default");
-            
+            NotificationCompat.BigTextStyle bigTextStyle = new NotificationCompat.BigTextStyle(builder);
+
+            //content 검사.
             String content_parse_save = extraction(get(extractUrl(content)));
 
             builder.setSmallIcon(R.mipmap.ic_launcher);
-            builder.setContentTitle(sender);
-            builder.setContentText(content_parse_save);
+
+            //발신자 번호 출력
+            builder.setContentTitle("발신번호 : " + sender);
+
+            //검사결과 출력.
+            bigTextStyle.bigText(content_parse_save);
 
             //아이콘 색상
             builder.setColor(Color.RED);
@@ -84,7 +86,7 @@ public class SmSReceiver extends BroadcastReceiver {
             // 알림 표시 (Oreo 버전 이상은 채널설정 해줘야함.)
             NotificationManager notificationManager = (NotificationManager) MainActivity.getAppContext().getSystemService(Context.NOTIFICATION_SERVICE);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                notificationManager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_DEFAULT));
+                notificationManager.createNotificationChannel(new NotificationChannel("default", "기본 채널", NotificationManager.IMPORTANCE_HIGH));
             }
 
 
@@ -138,39 +140,27 @@ public class SmSReceiver extends BroadcastReceiver {
         String malicious = "\"result\": \"malicious\"";
 
         String doubt="Url 검사결과";
-        if(message.indexOf(malware)>=0)
-            doubt = doubt + "\n malware 감지";
-        else
-            doubt = doubt + "\n malware 없음";
-        if(message.indexOf(malicious) >= 0)
-            doubt = doubt + "\n malicious 감지";
-        else
-            doubt = doubt + "\n malicious 없음";
-        if(message.indexOf(phishing) >= 0)
-            doubt = doubt + "\n phishing 감지";
-        else
-            doubt = doubt + "\n phishing 없음";
+        String result1= "";
+        String result2= "";
+        String result3= "";
+        String result4= "";
+        String result5= "";
+        String result6= "";
 
-        return doubt;
+        if(message.indexOf(malware)>=0)
+            result1 = "\nmalware가 감지 되었습니다.";
+        else
+            result2 = "\nmalware가 감지 되지않았습니다.";
+        if(message.indexOf(malicious) >= 0)
+            result3 = "\nmalicious가 감지 되었습니다.";
+        else
+            result4 = "\nmalicious가 감지 되지 않았습니다.";
+        if(message.indexOf(phishing) >= 0)
+            result5 = "\nphishing이 감지 되었습니다.";
+        else
+            result6 = "\nphishing이 감지 되지 않았습니다.";
+
+        return doubt + result1 + result2 + result3 + result4 + result5 + result6;
 
     }
-
-
-//    // 액티비티로 메세지의 내용을 전달해줌
-//    private void sendToActivity(Context context, String sender, String content) {
-//        Intent intent = new Intent(context, SmSReceiver.class);
-//        // Flag 설정
-//        intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK
-//                | Intent.FLAG_ACTIVITY_SINGLE_TOP
-//                | Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//
-//        // 메세지의 내용을 넣어줌고 intent준비
-//        intent.putExtra("sender", sender);
-//        intent.putExtra("content", content);
-//
-//        context.startActivity(intent);
-//    }
-
-
-
 }
